@@ -89,7 +89,7 @@
     "redux": "3.7.2",
     "redux-throttle": "0.1.1",
     "scratch-audio": "github:TurboWarp/scratch-audio#develop",
-    "scratch-blocks": "github:Usbq/usb-sb#develop",
+    "scratch-blocks": "github:Usbq/usb-sb#develop-builds",
     "scratch-paint": "github:Usbq/usb-paint#develop",
     "scratch-render": "github:Usbq/usb-render#develop",
     "scratch-vm": "github:Usbq/usb-vm#develop",
