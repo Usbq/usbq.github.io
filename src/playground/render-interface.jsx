@@ -41,22 +41,12 @@ import {isBrowserSupported} from '../lib/tw-environment-support-prober';
 import AddonChannels from '../addons/channels';
 import {loadServiceWorker} from './load-service-worker';
 import runAddons from '../addons/entry';
+import InvalidEmbed from '../components/tw-invalid-embed/invalid-embed.jsx';
 import {APP_NAME} from '../lib/brand.js';
 
 import styles from './interface.css';
 
-if (window.parent !== window) {
-    // eslint-disable-next-line no-alert
-    alert(`This page contains an invalid ${APP_NAME} embed. Please read https://docs.turbowarp.org/embedding for instructions to create a working embed.`);
-    throw new Error('Invalid embed');
-}
-
-let announcement = null;
-if (process.env.ANNOUNCEMENT) {
-    announcement = document.createElement('p');
-    // This is safe because process.env.ANNOUNCEMENT is set at build time.
-    announcement.innerHTML = process.env.ANNOUNCEMENT;
-}
+const isInvalidEmbed = window.parent !== window;
 
 const handleClickAddonSettings = addonId => {
     // addonId might be a string of the addon to focus on, undefined, or an event (treat like undefined)
@@ -98,11 +88,34 @@ const Footer = () => (
             <div className={styles.footerText}>
                 <FormattedMessage
                     // eslint-disable-next-line max-len
-                    defaultMessage="Unsandboxed and TurboWarp are not affiliated with Scratch, the Scratch Team, or the Scratch Foundation."
+                    defaultMessage="{APP_NAME} and TurboWarp are not affiliated with Scratch, the Scratch Team, or the Scratch Foundation."
                     description="Disclaimer that Unsandboxed is not connected to Scratch"
                     id="tw.footer.disclaimer"
+                    values={{
+                        APP_NAME
+                    }}
                 />
             </div>
+
+            <div className={styles.footerText}>
+                <FormattedMessage
+                    defaultMessage="Scratch is a project of the Scratch Foundation. It is available for free at {scratchDotOrg}."
+                    description="A disclaimer that Scratch requires when referring to Scratch. {scratchDotOrg} is a link with text 'https://scratch.org/'"
+                    id="tw.footer.scratchDisclaimer"
+                    values={{
+                        scratchDotOrg: (
+                            <a
+                                href="https://scratch.org/"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                {'https://scratch.org/'}
+                            </a>
+                        )
+                    }}
+                />
+            </div>
+
             <div className={styles.footerColumns}>
                 <div className={styles.footerSection}>
                     <a href="credits.html">
@@ -197,6 +210,10 @@ class Interface extends React.Component {
         }
     }
     render () {
+        if (isInvalidEmbed) {
+            return <InvalidEmbed />;
+        }
+
         const {
             /* eslint-disable no-unused-vars */
             intl,
@@ -218,6 +235,7 @@ class Interface extends React.Component {
                     [styles.playerOnly]: isHomepage,
                     [styles.editor]: isEditor
                 })}
+                dir={isRtl ? 'rtl' : 'ltr'}
             >
                 {isHomepage ? (
                     <div className={styles.menu}>
@@ -237,7 +255,6 @@ class Interface extends React.Component {
                         width: `${Math.max(480, props.customStageSize.width) + 2}px`
                     }) : null}
                 >
-                    {isHomepage && announcement ? <DOMElementRenderer domElement={announcement} /> : null}
                     <GUI
                         onClickAddonSettings={handleClickAddonSettings}
                         onUpdateProjectTitle={this.handleUpdateProjectTitle}
