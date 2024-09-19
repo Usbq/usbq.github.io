@@ -89,7 +89,7 @@
     "redux": "3.7.2",
     "redux-throttle": "0.1.1",
     "scratch-audio": "github:TurboWarp/scratch-audio#develop",
-    "scratch-blocks": "github:Unsandboxed/scratch-blocks#develop",
+    "scratch-blocks": "github:Unsandboxed/scratch-blocks#develop-builds",
     "scratch-paint": "github:Unsandboxed/scratch-paint#develop",
     "scratch-render": "github:Unsandboxed/scratch-render#develop",
     "scratch-vm": "github:Unsandboxed/scratch-vm#develop",
