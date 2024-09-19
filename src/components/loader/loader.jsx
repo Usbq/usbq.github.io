@@ -9,7 +9,6 @@ import {getIsLoadingWithId} from '../../reducers/project-state';
 import topBlock from './top-block.svg';
 import middleBlock from './middle-block.svg';
 import bottomBlock from './bottom-block.svg';
-import {notScratchDesktop} from '../../lib/isScratchDesktop';
 
 const mainMessages = {
     'gui.loader.headline': (
@@ -147,17 +146,6 @@ class LoaderComponent extends React.Component {
                             ref={this.barInnerRef}
                         />
                     </div>
-
-                    {notScratchDesktop() && (
-                        <div
-                            className={styles.prideMonth}
-                            lang="en"
-                        >
-                            <b>{'Did you know?'}</b>
-                            {' '}
-                            {'Gender and sexuality exist on spectrums.'}
-                        </div>
-                    )}
                 </div>
             </div>
         );
