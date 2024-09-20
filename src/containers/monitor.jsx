@@ -38,7 +38,6 @@ const messages = defineMessages({
 class Monitor extends React.Component {
     constructor (props) {
         super(props);
-        console.log('Props added', props);
         bindAll(this, [
             'handleDragEnd',
             'handleHide',
@@ -207,14 +206,6 @@ class Monitor extends React.Component {
         const monitorProps = monitorAdapter(this.props);
         const showSliderOption = availableModes(this.props.opcode).indexOf('slider') !== -1;
         const isList = this.props.mode === 'list';
-        /*if (isList && this.props.vm) {
-            console.log('refreshing');
-            const target = this.props.targetId ? this.props.vm.runtime.getTargetById(this.props.targetId) : this.props.vm.runtime.getTargetForStage();
-            if (target) {
-                const variable = target.variables[this.props.id];
-                this.state.locked = variable?.locked || false;
-            }
-        }*/
         return (
             <React.Fragment>
                 {this.state.sliderPrompt && <SliderPrompt
