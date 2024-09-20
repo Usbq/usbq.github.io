@@ -435,7 +435,7 @@ class Blocks extends React.Component {
     }
     onVisualReport (data) {
         this.workspace.reportValueWithCallback(data.id, '', (div) => {
-            div.appendChild(this.ScratchBlocks.Highlight.highlight(data.value, data.type));
+            div.querySelector('.valueReportBox').appendChild(this.ScratchBlocks.Highlight.highlight(data.value, data.type));
         });
     }
     getToolboxXML () {
