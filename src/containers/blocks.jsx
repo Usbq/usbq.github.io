@@ -434,7 +434,9 @@ class Blocks extends React.Component {
         this.workspace.glowBlock(data.id, false);
     }
     onVisualReport (data) {
-        this.workspace.reportValue(data.id, data.value);
+        this.workspace.reportValueWithCallback(data.id, '', (div) => {
+            div.appendChild(this.ScratchBlocks.Highlight.highlight(data.value, data.type));
+        });
     }
     getToolboxXML () {
         // Use try/catch because this requires digging pretty deep into the VM
