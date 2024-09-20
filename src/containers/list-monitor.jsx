@@ -26,7 +26,7 @@ class ListMonitor extends React.Component {
         this.state = {
             activeIndex: null,
             activeValue: null,
-            locked: false,
+            locked: props.locked || false,
             width: props.width || 100,
             height: props.height || 200
         };
@@ -131,6 +131,10 @@ class ListMonitor extends React.Component {
         this.setState({
             locked: list.locked
         });
+        this.props.vm.runtime.requestUpdateMonitor(new Map([
+            ['id', variableId],
+            ['locked', list.locked]
+        ]));
     }
 
     handleResizeMouseDown (e) {

@@ -90,12 +90,14 @@ ListMonitor.propTypes = {
             PropTypes.number
         ]))
     ]),
-    width: PropTypes.number
+    width: PropTypes.number,
+    locked: PropTypes.bool
 };
 
 ListMonitor.defaultProps = {
     width: 110,
-    height: 200
+    height: 200,
+    locked: false
 };
 
 export default ListMonitor;

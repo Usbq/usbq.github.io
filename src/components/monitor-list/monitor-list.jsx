@@ -44,6 +44,7 @@ const MonitorList = props => (
                         width={monitorData.width}
                         x={monitorData.x}
                         y={monitorData.y}
+                        locked={monitorData.locked}
                         onDragEnd={props.onMonitorChange}
                     />
                 ))}

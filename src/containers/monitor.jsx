@@ -38,6 +38,7 @@ const messages = defineMessages({
 class Monitor extends React.Component {
     constructor (props) {
         super(props);
+        console.log('Props added', props);
         bindAll(this, [
             'handleDragEnd',
             'handleHide',
@@ -53,7 +54,8 @@ class Monitor extends React.Component {
             'setElement'
         ]);
         this.state = {
-            sliderPrompt: false
+            sliderPrompt: false,
+            locked: false,
         };
     }
     componentDidMount () {
@@ -205,6 +207,14 @@ class Monitor extends React.Component {
         const monitorProps = monitorAdapter(this.props);
         const showSliderOption = availableModes(this.props.opcode).indexOf('slider') !== -1;
         const isList = this.props.mode === 'list';
+        /*if (isList && this.props.vm) {
+            console.log('refreshing');
+            const target = this.props.targetId ? this.props.vm.runtime.getTargetById(this.props.targetId) : this.props.vm.runtime.getTargetForStage();
+            if (target) {
+                const variable = target.variables[this.props.id];
+                this.state.locked = variable?.locked || false;
+            }
+        }*/
         return (
             <React.Fragment>
                 {this.state.sliderPrompt && <SliderPrompt
@@ -227,6 +237,7 @@ class Monitor extends React.Component {
                     targetId={this.props.targetId}
                     theme={this.props.theme}
                     width={this.props.width}
+                    locked={this.props.locked}
                     onDragEnd={this.handleDragEnd}
                     onExport={isList ? this.handleExport : null}
                     onImport={isList ? this.handleImport : null}
@@ -276,7 +287,8 @@ Monitor.propTypes = {
     vm: PropTypes.instanceOf(VM),
     width: PropTypes.number,
     x: PropTypes.number,
-    y: PropTypes.number
+    y: PropTypes.number,
+    locked: PropTypes.boolean,
 };
 Monitor.defaultProps = {
     theme: Theme.light
