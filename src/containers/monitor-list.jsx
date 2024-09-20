@@ -33,7 +33,7 @@ class MonitorList extends React.Component {
             });
         }
     }
-    handleMonitorChange (id, x, y) { // eslint-disable-line no-unused-variables
+    handleMonitorChange (id, x, y) { // eslint-disable-line no-unused-vars
         this.props.moveMonitorRect(id, x, y);
     }
     render () {
