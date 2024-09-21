@@ -434,7 +434,7 @@ class Blocks extends React.Component {
         this.workspace.glowBlock(data.id, false);
     }
     onVisualReport (data) {
-        data.value = String(data.value);
+        // data.value = String(data.value);
         // if (data.value.length > this.workspace.constructor.VISUAL_REPORT_CHECK_SIZE) {
         //     return this.workspace.reportValueCheckSize(data.id, data.value, data.value.length);
         // }
