@@ -530,6 +530,12 @@ class Blocks extends React.Component {
         }
     }
     handleExtensionAdded (categoryInfo) {
+        for (const blockShapeName in categoryInfo.customShapes) {
+            if (Object.prototype.hasOwnProperty.call(categoryInfo.customShapes, blockShapeName)) {
+                this.handleShapeAddition(categoryInfo, categoryInfo.customShapes[blockShapeName]);
+            }
+        }
+
         const defineBlocks = blockInfoArray => {
             if (blockInfoArray && blockInfoArray.length > 0) {
                 const staticBlocksJson = [];
@@ -574,6 +580,9 @@ class Blocks extends React.Component {
         if (toolboxXML) {
             this.props.updateToolboxState(toolboxXML);
         }
+    }
+    handleShapeAddition (categoryInfo, shapeInfo) {
+        this.ScratchBlocks.CustomShapes.register(shapeInfo.name, shapeInfo, categoryInfo);
     }
     handleBlocksInfoUpdate (categoryInfo) {
         // @todo Later we should replace this to avoid all the warnings from redefining blocks.
