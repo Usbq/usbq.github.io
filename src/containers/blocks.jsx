@@ -434,9 +434,13 @@ class Blocks extends React.Component {
         this.workspace.glowBlock(data.id, false);
     }
     onVisualReport (data) {
+        data.value = String(data.value);
+        // if (data.value.length > this.workspace.constructor.VISUAL_REPORT_CHECK_SIZE) {
+        //     return this.workspace.reportValueCheckSize(data.id, data.value, data.value.length);
+        // }
         this.workspace.reportValueWithCallback(data.id, '', (div) => {
             div.querySelector('.valueReportBox').appendChild(this.ScratchBlocks.Highlight.highlight(data.value, data.type));
-            this.ScratchBlocks.DropDownDiv.showPositionedByBlock(this.ScratchBlocks.DropDownDiv.DIV_, this.workspace.getBlockById(this.ScratchBlocks.DropDownDiv._blockId));
+            this.ScratchBlocks.DropDownDiv.showPositionedByBlock(this.workspace, this.workspace.getBlockById(this.ScratchBlocks.DropDownDiv._blockId));
         });
     }
     getToolboxXML () {
