@@ -100,7 +100,7 @@ export default [
                 id="gui.extension.pen.description"
             />
         ),
-        tags: ['scratch'],
+        tags: ['scratch', 'usb'],
         featured: true
     },
     {
