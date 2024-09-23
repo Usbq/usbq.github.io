@@ -117,6 +117,7 @@
     "babel-loader": "8.3.0",
     "child-process-es6-promise": "^1.2.1",
     "chromedriver": "117.0.3",
+    "depended": "github:Unsandboxed/depended#main",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.7",
     "eslint": "8.55.0",
