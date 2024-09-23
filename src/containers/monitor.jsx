@@ -52,11 +52,16 @@ class Monitor extends React.Component {
             'handleSliderPromptOpen',
             'handleImport',
             'handleExport',
-            'setElement'
+            'setElement',
+            'handleEdit',
+            'handleEditDone',
+            'handleConversion'
         ]);
         this.state = {
             sliderPrompt: false,
             locked: false,
+            editing: false,
+            type: 'string'
         };
     }
     componentDidMount () {
@@ -86,6 +91,9 @@ class Monitor extends React.Component {
         }
         this.element.style.top = `${rect.upperStart.y}px`;
         this.element.style.left = `${rect.upperStart.x}px`;
+
+        // Load the type
+        this.setState({type: typeof (getVariable(this.props.vm, this.props.targetId, this.props.id).value)});
     }
     shouldComponentUpdate (nextProps, nextState) {
         if (nextState !== this.state) {
@@ -204,6 +212,56 @@ class Monitor extends React.Component {
         const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
         downloadBlob(`${variable.name}.txt`, blob);
     }
+    handleEdit () {
+        this.setState({editing:true});
+    }
+    handleEditDone (value) {
+        this.setState({editing:false, type:'string'});
+        const {vm, targetId, id: variableId} = this.props;
+        setVariableValue(vm, targetId, variableId, value);
+    }
+    handleConversion (conversion) {
+        const {vm, targetId, id: variableId} = this.props;
+        let value = getVariable(vm, targetId, variableId).value, type = typeof value;
+        if (type === 'object' && conversion === 'string') {
+            try {
+                value = JSON.stringify(value);
+            } catch {
+                value = '';
+            }
+        } else if (conversion === 'string') {
+            value = '' + value;
+        } else if (conversion === 'number') {
+            value = +value;
+        } else if (conversion === 'boolean') {
+            value = Boolean(value);
+        } else if (conversion === 'object') {
+            if (type === 'string') {
+                try {
+                    value = JSON.parse(value);
+                    if (typeof value !== 'object' || Array.isArray(value)) value = {};
+                } catch {
+                    value = {};
+                }
+            } else {
+                value = {};
+            }
+        } else if (conversion === 'array') {
+            if (type === 'string') {
+                try {
+                    value = Array.from(JSON.parse(value));
+                } catch {
+                    value = [];
+                }
+            } else if (type === 'number') {
+                value = new Array(isNaN(value) ? 0 : value);
+            } else {
+                value = [];
+            }
+        }
+        this.setState({type:(typeof value)});
+        setVariableValue(vm, targetId, variableId, value);
+    }
     render () {
         const monitorProps = monitorAdapter(this.props);
         const showSliderOption = availableModes(this.props.opcode).indexOf('slider') !== -1;
@@ -227,10 +285,12 @@ class Monitor extends React.Component {
                     max={this.props.max}
                     min={this.props.min}
                     mode={this.props.mode}
+                    editing={this.state.editing}
                     targetId={this.props.targetId}
                     theme={this.props.theme}
                     width={this.props.width}
                     locked={this.props.locked}
+                    type={this.state.type}
                     onDragEnd={this.handleDragEnd}
                     onExport={isList ? this.handleExport : null}
                     onImport={isList ? this.handleImport : null}
@@ -240,6 +300,9 @@ class Monitor extends React.Component {
                     onSetModeToLarge={isList ? null : this.handleSetModeToLarge}
                     onSetModeToSlider={showSliderOption ? this.handleSetModeToSlider : null}
                     onSliderPromptOpen={this.handleSliderPromptOpen}
+                    onEdit={this.handleEdit}
+                    onEditDone={this.handleEditDone}
+                    onConversion={this.handleConversion}
                 />
             </React.Fragment>
         );

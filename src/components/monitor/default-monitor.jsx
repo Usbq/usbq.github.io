@@ -2,15 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './monitor.css';
 
-const DefaultMonitor = ({categoryColor, label, value}) => {
-    console.log(label, value);
+const DefaultMonitor = ({categoryColor, label, value, editing, onEditDone}) => {
     return (
         <div className={styles.defaultMonitor}>
             <div className={styles.row}>
                 <div className={styles.label}>
                     {label}
                 </div>
-                <div
+                {!editing && <div
                     className={styles.value}
                     style={{
                         background: categoryColor.background,
@@ -18,7 +17,10 @@ const DefaultMonitor = ({categoryColor, label, value}) => {
                     }}
                 >
                     {value}
-                </div>
+                </div>}
+                {editing && <input defaultValue={value} onKeyDown={
+                    e => e.which === 13 && onEditDone((e.srcElement || e.target).value)
+                } />}
             </div>
         </div>
     );
