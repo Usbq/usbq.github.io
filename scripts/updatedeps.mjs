@@ -1,4 +1,4 @@
-import childProcess from 'child-process-es6-promise';
+import childProcess from 'child_process';
 import path from 'path';
 import fetch from 'node-fetch';
 import fs from 'fs/promises';
@@ -54,13 +54,14 @@ await new Promise(async (resolve, reject) => {
       await new Promise((resolve, reject) => {
         const cmd = ['npm', ['install', name, `github:Unsandboxed/${name}#${branch}`, '--package-lock-only']];
         console.log('Running', cmd);
-        childProcess.spawn(...cmd, {
+        const child = childProcess.spawn(...cmd, {
           cwd: path.join(__dirname, '../')
-        }).then(
-          value => resolve(true)
-        ).catch(
-          err => reject(err)
-        );
+        });
+        child.stdout.setEncoding('utf8');
+        child.stderr.setEncoding('utf8');
+        child.stdout.on('data', data => console.log('NPM @', data));
+        child.stderr.on('data', data => console.log('NPM !', data));
+        child.once('close', code => (console.log('NPM closed with code', code), resolve(true)));
       });
       console.log(`Updated ${name}`);
       return true;
