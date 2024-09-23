@@ -401,7 +401,7 @@ class Stage extends React.Component {
     }
     onStartCameraDrag (x, y) {
         this.setState({button: null});
-        if (this.state.dragId) return;
+        if (this.state.dragId || this.props.isPlayerOnly) return;
 
         this.setState({
             isDraggingCamera: true,
