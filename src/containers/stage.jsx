@@ -35,7 +35,9 @@ class Stage extends React.Component {
             'onMouseMove',
             'onMouseDown',
             'onStartDrag',
+            'onStartCameraDrag',
             'onStopDrag',
+            'onStopCameraDrag',
             'onWheel',
             'onContextMenu',
             'updateRect',
@@ -49,10 +51,14 @@ class Stage extends React.Component {
             mouseDownTimeoutId: null,
             mouseDownPosition: null,
             isDragging: false,
+            isDraggingCamera: false,
             dragOffset: null,
             dragId: null,
             colorInfo: null,
-            question: null
+            question: null,
+            button: null,
+            start: null,
+            cam: null,
         };
         if (this.props.vm.renderer) {
             this.renderer = this.props.vm.renderer;
@@ -208,14 +214,18 @@ class Stage extends React.Component {
             this.pickY = mousePosition[1];
         }
 
-        if (this.state.mouseDown && !this.state.isDragging) {
+        if (this.state.mouseDown && !this.state.isDragging && !this.state.isDraggingCamera) {
             const distanceFromMouseDown = Math.sqrt(
                 Math.pow(mousePosition[0] - this.state.mouseDownPosition[0], 2) +
                 Math.pow(mousePosition[1] - this.state.mouseDownPosition[1], 2)
             );
             if (distanceFromMouseDown > dragThreshold) {
                 this.cancelMouseDownTimeout();
-                this.onStartDrag(...this.state.mouseDownPosition);
+                if (e.shiftKey) {
+                    this.onStartCameraDrag(x, y);
+                } else {
+                    this.onStartDrag(...this.state.mouseDownPosition);
+                }
             }
         }
         if (this.state.mouseDown && this.state.isDragging) {
@@ -231,6 +241,8 @@ class Stage extends React.Component {
                     force: true
                 });
             }
+        } else if (this.state.mouseDown && this.state.isDraggingCamera) {
+            this.props.vm.runtime.camera.setXY(this.state.cam[0] - (x - this.state.start[0]), this.state.cam[1] + (y - this.state.start[1]));
         }
         const coordinates = {
             x: mousePosition[0],
@@ -259,6 +271,8 @@ class Stage extends React.Component {
         };
         if (this.state.isDragging) {
             this.onStopDrag(mousePosition[0], mousePosition[1]);
+        } else if (this.state.isDraggingCamera) {
+            this.onStopCameraDrag(x, y);
         }
         this.props.vm.postIOData('mouse', data);
 
@@ -291,14 +305,26 @@ class Stage extends React.Component {
         } else {
             const isTouchEvent = window.TouchEvent && e instanceof TouchEvent;
             if (e.button === 0 || isTouchEvent) {
-                this.setState({
-                    mouseDown: true,
-                    mouseDownPosition: mousePosition,
-                    mouseDownTimeoutId: setTimeout(
-                        this.onStartDrag.bind(this, mousePosition[0], mousePosition[1]),
-                        400
-                    )
-                });
+                if (e.shiftKey) {
+                    this.setState({
+                        mouseDown: true,
+                        mouseDownPosition: mousePosition,
+                        mouseDownTimeoutId: setTimeout(
+                            this.onStartCameraDrag.bind(this, x, y),
+                            400
+                        ),
+                        button: 1
+                    });
+                } else {
+                    this.setState({
+                        mouseDown: true,
+                        mouseDownPosition: mousePosition,
+                        mouseDownTimeoutId: setTimeout(
+                            this.onStartDrag.bind(this, mousePosition[0], mousePosition[1]),
+                            400
+                        )
+                    });
+                }
             }
             const data = {
                 isDown: true,
@@ -373,7 +399,27 @@ class Stage extends React.Component {
         // positioned so that the pick location is at (0,0).
         this.dragCanvas.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
     }
+    onStartCameraDrag (x, y) {
+        this.setState({button: null});
+        if (this.state.dragId) return;
+
+        this.setState({
+            isDraggingCamera: true,
+            start: [x, y],
+            cam: [this.props.vm.runtime.camera.x, this.props.vm.runtime.camera.y]
+        });
+    }
+    onStopCameraDrag (x, y) {
+        if (!this.state.isDraggingCamera) return;
+        this.setState({
+            isDraggingCamera: false,
+            start: null,
+            cam: null,
+            button: null
+        });
+    }
     onStartDrag (x, y) {
+        this.setState({button: null});
         if (this.state.dragId) return;
         const drawableId = this.renderer.pick(x, y);
         if (drawableId === null) return;

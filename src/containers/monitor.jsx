@@ -93,7 +93,12 @@ class Monitor extends React.Component {
         this.element.style.left = `${rect.upperStart.x}px`;
 
         // Load the type
-        this.setState({type: typeof (getVariable(this.props.vm, this.props.targetId, this.props.id).value)});
+        if (this.props.vm && this.props.targetId && this.props.id) {
+            const variable = getVariable(this.props.vm, this.props.targetId, this.props.id);
+            if (variable) {
+                this.setState({type: typeof variable.value});
+            }
+        }
     }
     shouldComponentUpdate (nextProps, nextState) {
         if (nextState !== this.state) {
