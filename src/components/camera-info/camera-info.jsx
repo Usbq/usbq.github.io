@@ -102,7 +102,7 @@ class CameraInfo extends React.Component {
         if (stageSize === STAGE_DISPLAY_SIZES.small) {
             return (
                 <Box className={styles.cameraInfo}>
-                    <div className={classNames(styles.row, styles.rowPrimary)}>
+                    <div className={classNames(styles.row)}>
                         {xPosition}
                         {yPosition}
                     </div>
@@ -112,7 +112,7 @@ class CameraInfo extends React.Component {
 
         return (
             <Box className={styles.cameraInfo}>
-                <div className={classNames(styles.row, styles.rowPrimary)}>
+                <div className={classNames(styles.row)}>
                     <div className={styles.group}>
                         <Label
                             above={labelAbove}
