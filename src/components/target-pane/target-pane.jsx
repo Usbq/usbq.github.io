@@ -17,10 +17,10 @@ import styles from './target-pane.css';
  * @returns {React.Component} rendered component
  */
 const TargetPane = ({
+    camera,
     editingTarget,
     fileInputRef,
     hoveredTarget,
-    camera,
     spriteLibraryVisible,
     onActivateBlocksTab,
     onChangeSpriteDirection,
@@ -56,9 +56,9 @@ const TargetPane = ({
     >
 
         <SpriteSelectorComponent
+            camera={camera}
             editingTarget={editingTarget}
             hoveredTarget={hoveredTarget}
-            camera={camera}
             raised={raiseSprites}
             selectedId={editingTarget}
             spriteFileInput={fileInputRef}
@@ -132,6 +132,7 @@ const spriteShape = PropTypes.shape({
 });
 
 TargetPane.propTypes = {
+    camera: PropTypes.object,
     editingTarget: PropTypes.string,
     extensionLibraryVisible: PropTypes.bool,
     fileInputRef: PropTypes.func,

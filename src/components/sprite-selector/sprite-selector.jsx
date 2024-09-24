@@ -43,9 +43,9 @@ const messages = defineMessages({
 
 const SpriteSelectorComponent = function (props) {
     const {
+        camera,
         editingTarget,
         hoveredTarget,
-        camera,
         intl,
         onChangeSpriteDirection,
         onChangeSpriteName,
@@ -85,8 +85,9 @@ const SpriteSelectorComponent = function (props) {
             {...componentProps}
         >
             <CameraInfo
-                x={camera.y}
-                y={camera.x}
+                x={camera.camera.x}
+                y={camera.camera.y}
+                stageSize={stageSize}
                 onChangeX={onChangeCameraX}
                 onChangeY={onChangeCameraY}
             />
@@ -156,6 +157,7 @@ const SpriteSelectorComponent = function (props) {
 };
 
 SpriteSelectorComponent.propTypes = {
+    camera: PropTypes.object,
     editingTarget: PropTypes.string,
     hoveredTarget: PropTypes.shape({
         hoveredSprite: PropTypes.string,

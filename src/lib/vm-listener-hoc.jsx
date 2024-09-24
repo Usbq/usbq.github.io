@@ -153,8 +153,8 @@ const vmListenerHOC = function (WrappedComponent) {
                 this.props.onProjectChanged();
             }
         }
-        handleCameraUpdate (data) {
-            this.props.onCameraUpdate(data.camera);
+        handleCameraUpdate (cameraState) {
+            this.props.onCameraUpdate(cameraState);
         }
         handleTargetsUpdate (data) {
             if (this.props.shouldUpdateTargets) {
@@ -298,8 +298,8 @@ const vmListenerHOC = function (WrappedComponent) {
         onTargetsUpdate: data => {
             dispatch(updateTargets(data.targetList, data.editingTarget));
         },
-        onCameraUpdate: data => {
-            dispatch(updateCamera(data.camera));
+        onCameraUpdate: camera => {
+            dispatch(updateCamera(camera));
         },
         onMonitorsUpdate: monitorList => {
             dispatch(updateMonitors(monitorList));

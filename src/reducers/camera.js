@@ -1,4 +1,4 @@
-const UPDATE_CAMERA = 'scratch-gui/camera/UPDATE_CAMERA';
+const CAMERA_UPDATE = 'scratch-gui/camera/CAMERA_UPDATE';
 
 const initialState = {
     camera: {
@@ -10,7 +10,7 @@ const initialState = {
 const reducer = function (state, action) {
     if (typeof state === 'undefined') state = initialState;
     switch (action.type) {
-    case UPDATE_CAMERA:
+    case CAMERA_UPDATE:
         return {
             camera: action.camera
         };
@@ -21,11 +21,8 @@ const reducer = function (state, action) {
 
 const updateCamera = function (camera) {
     return {
-        type: UPDATE_CAMERA,
-        camera: camera,
-        meta: {
-            throttle: 30
-        }
+        type: CAMERA_UPDATE,
+        camera: camera
     };
 };
 

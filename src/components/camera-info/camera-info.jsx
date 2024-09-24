@@ -134,14 +134,8 @@ CameraInfo.propTypes = {
     onChangeX: PropTypes.func,
     onChangeY: PropTypes.func,
     stageSize: PropTypes.oneOf(Object.keys(STAGE_DISPLAY_SIZES)).isRequired,
-    x: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-    ]),
-    y: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-    ])
+    x: PropTypes.number,
+    y: PropTypes.number
 };
 
 export default injectIntl(CameraInfo);
