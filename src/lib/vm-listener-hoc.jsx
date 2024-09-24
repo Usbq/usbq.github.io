@@ -54,7 +54,7 @@ const vmListenerHOC = function (WrappedComponent) {
             // If the wrapped component uses the vm in componentDidMount, then
             // we need to start listening before mounting the wrapped component.
             this.props.vm.on('targetsUpdate', this.handleTargetsUpdate);
-            this.props.vm.runtime.on('cameraUpdate', this.handleCameraUpdate);
+            this.props.vm.on('CAMERA_UPDATE', this.handleCameraUpdate);
             this.props.vm.on('MONITORS_UPDATE', this.props.onMonitorsUpdate);
             this.props.vm.on('BLOCK_DRAG_UPDATE', this.props.onBlockDragUpdate);
             this.props.vm.on('TURBO_MODE_ON', this.props.onTurboModeOn);
