@@ -54,6 +54,8 @@ const SpriteSelectorComponent = function (props) {
         onChangeSpriteVisibility,
         onChangeCameraX,
         onChangeCameraY,
+        onClickCenter,
+        onClickCenterOnTarget,
         onChangeSpriteX,
         onChangeSpriteY,
         onDrop,
@@ -88,6 +90,8 @@ const SpriteSelectorComponent = function (props) {
                 x={camera.camera.x}
                 y={camera.camera.y}
                 stageSize={stageSize}
+                onClickCenter={onClickCenter}
+                onClickCenterOnTarget={onClickCenterOnTarget}
                 onChangeX={onChangeCameraX}
                 onChangeY={onChangeCameraY}
             />
@@ -173,6 +177,8 @@ SpriteSelectorComponent.propTypes = {
     onChangeCameraY: PropTypes.func,
     onChangeSpriteX: PropTypes.func,
     onChangeSpriteY: PropTypes.func,
+    onClickCenter: PropTypes.func,
+    onClickCenterOnTarget: PropTypes.func,
     onDeleteSprite: PropTypes.func,
     onDrop: PropTypes.func,
     onDuplicateSprite: PropTypes.func,

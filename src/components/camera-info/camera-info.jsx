@@ -16,8 +16,24 @@ import styles from './camera-info.css';
 
 import xIcon from './icon--x.svg';
 import yIcon from './icon--y.svg';
+import centerIcon from '!../../lib/tw-recolor/build!./icon--center.svg';
+import centerOnTargetIcon from '!../../lib/tw-recolor/build!./icon--center-on-target.svg';
+import ToggleButtons from '../toggle-buttons/toggle-buttons.jsx';
 
 const BufferedInput = BufferedInputHOC(Input);
+
+const messages = defineMessages({
+    centerCameraAction: {
+        id: 'gui.CameraInfo.centerCameraAction',
+        defaultMessage: 'Move to origin',
+        description: 'Tooltip for center button'
+    },
+    centerOnTargetAction: {
+        id: 'gui.CameraInfo.centerOnTargetAction',
+        defaultMessage: 'Move to current sprite',
+        description: 'Tooltip for center-on-target button'
+    }
+});
 
 class CameraInfo extends React.Component {
     shouldComponentUpdate (nextProps) {
@@ -122,6 +138,21 @@ class CameraInfo extends React.Component {
                     </div>
                     {xPosition}
                     {yPosition}
+                    <ToggleButtons
+                        buttons={[
+                            {
+                                handleClick: this.props.onClickCenter,
+                                icon: centerIcon,
+                                title: this.props.intl.formatMessage(messages.centerCameraAction)
+                            },
+                            {
+                                handleClick: this.props.onClickCenterOnTarget,
+                                icon: centerOnTargetIcon,
+                                title: this.props.intl.formatMessage(messages.centerOnTargetAction)
+                            }
+                        ]}
+                        disabled={this.props.disabled}
+                    />
                 </div>
             </Box>
         );
@@ -133,6 +164,8 @@ CameraInfo.propTypes = {
     intl: intlShape,
     onChangeX: PropTypes.func,
     onChangeY: PropTypes.func,
+    onClickCenter: PropTypes.func,
+    onClickCenterOnTarget: PropTypes.func,
     stageSize: PropTypes.oneOf(Object.keys(STAGE_DISPLAY_SIZES)).isRequired,
     x: PropTypes.number,
     y: PropTypes.number

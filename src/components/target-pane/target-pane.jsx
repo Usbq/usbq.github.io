@@ -32,6 +32,8 @@ const TargetPane = ({
     onChangeSpriteY,
     onChangeCameraX,
     onChangeCameraY,
+    onClickCenter,
+    onClickCenterOnTarget,
     onDeleteSprite,
     onDrop,
     onDuplicateSprite,
@@ -73,6 +75,8 @@ const TargetPane = ({
             onChangeSpriteY={onChangeSpriteY}
             onChangeCameraX={onChangeCameraX}
             onChangeCameraY={onChangeCameraY}
+            onClickCenter={onClickCenter}
+            onClickCenterOnTarget={onClickCenterOnTarget}
             onDeleteSprite={onDeleteSprite}
             onDrop={onDrop}
             onDuplicateSprite={onDuplicateSprite}
@@ -150,6 +154,8 @@ TargetPane.propTypes = {
     onChangeSpriteY: PropTypes.func,
     onChangeCameraX: PropTypes.func,
     onChangeCameraY: PropTypes.func,
+    onClickCenter: PropTypes.func,
+    onClickCenterOnTarget: PropTypes.func,
     onDeleteSprite: PropTypes.func,
     onDrop: PropTypes.func,
     onDuplicateSprite: PropTypes.func,

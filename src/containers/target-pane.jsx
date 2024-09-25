@@ -41,6 +41,8 @@ class TargetPane extends React.Component {
             'handleChangeSpriteY',
             'handleChangeCameraX',
             'handleChangeCameraY',
+            'handleClickCenter',
+            'handleClickCenterOnTarget',
             'handleDeleteSprite',
             'handleDrop',
             'handleDuplicateSprite',
@@ -87,6 +89,17 @@ class TargetPane extends React.Component {
     }
     handleChangeCameraY (y) {
         this.props.vm.runtime.camera.y = y;
+        this.props.vm.runtime.camera.emitCameraUpdate();
+    }
+    handleClickCenter () {
+        this.props.vm.runtime.camera.setXY(0, 0);
+        this.props.vm.runtime.camera.emitCameraUpdate();
+    }
+    handleClickCenterOnTarget () {
+        const editingTarget = this.props.vm.runtime.getEditingTarget();
+        const targetX = editingTarget.x;
+        const targetY = editingTarget.y;
+        this.props.vm.runtime.camera.setXY(targetX, targetY);
         this.props.vm.runtime.camera.emitCameraUpdate();
     }
     handleDeleteSprite (id) {
@@ -250,6 +263,8 @@ class TargetPane extends React.Component {
                 onChangeSpriteY={this.handleChangeSpriteY}
                 onChangeCameraX={this.handleChangeCameraX}
                 onChangeCameraY={this.handleChangeCameraY}
+                onClickCenter={this.handleClickCenter}
+                onClickCenterOnTarget={this.handleClickCenterOnTarget}
                 onDeleteSprite={this.handleDeleteSprite}
                 onDrop={this.handleDrop}
                 onDuplicateSprite={this.handleDuplicateSprite}
