@@ -17,8 +17,6 @@ const addons = [
     'pause',
     'mute-project',
     'vol-slider',
-    'clones',
-    'mouse-pos',
     'color-picker',
     'remove-sprite-confirm',
     'block-count',
