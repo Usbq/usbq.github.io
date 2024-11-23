@@ -82,7 +82,6 @@ const fetchLibrary = async () => {
             href: `${process.env.ROOT}editor?project_url=https://extensions.turbowarp.org/samples/${encodeURIComponent(sample)}.sb3`,
             text: sample
         })) : null,
-        incompatibleWithScratch: true,
         featured: true
     }));
 };
